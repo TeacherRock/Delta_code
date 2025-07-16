@@ -31,7 +31,7 @@ function [P, V, A, t] = generate_cmd(start, goal, Vmax, Amax, sampT)
     dis = goal - start;                  % 目標位置和起始位置的距離
     t1 = Vmax / Amax;                    % 加速階段時間
     t2 = (dis - t1 * Vmax) / Vmax;       % 等速階段時間
-    total_time = 2 * t1 + t2 + 2.0;      % 總時間
+    total_time = 2 * t1 + t2 + 1.0;      % 總時間
 
     % 根據採樣時間 sampT 來生成時間範圍
     t = 0:sampT:total_time;              % 使用步長為 sampT 的時間範圍

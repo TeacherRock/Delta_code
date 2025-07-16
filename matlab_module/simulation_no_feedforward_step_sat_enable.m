@@ -1,6 +1,6 @@
 
 %% Generate Command (Step command)
-total_time = 3.0;
+total_time = 1.5;
 pos_cmd = ones(1, total_time*1000); % total_time sec
 cmd = [linspace(0.0, total_time, length(pos_cmd)); pos_cmd]';
 

@@ -61,14 +61,35 @@ def summary_table(test=False):
                         lines = f.readlines()
 
                         ini_reward = ast.literal_eval(lines[0].strip())
-                        ini_settling_time = ini_reward['settling_time']
-                        ini_overshoot     = ini_reward['overshoot']
-                        ini_gm_velocity   = ini_reward['GM_velocity']
+                    
+                        ini_overshoot = ini_reward["overshoot"]
+                        ini_settling_time = ini_reward["settling_time"]
+                        ini_overshoot_load = ini_reward["overshoot_load"]
+                        ini_settling_time_load = ini_reward["settling_time_load"]
+                        ini_Ess_step = ini_reward["Ess_step"]
+                        ini_gm_velocity = ini_reward["GM_velocity"]
+                        ini_settling_001p = ini_reward["settling_time_001p"]
+                        ini_settling_01p = ini_reward["settling_time_01p"]
+                        ini_settling_1p = ini_reward["settling_time_1p"]
+                        ini_settling_3p = ini_reward["settling_time_3p"]
+                        ini_damping_ratio = ini_reward["damping_ratio"]
+                        ini_Ess_trap = ini_reward["Ess_trap"]
+                        
 
                         last_reward = ast.literal_eval(lines[-1].strip())
-                        last_settling_time = last_reward['settling_time']
-                        last_overshoot     = last_reward['overshoot']
-                        last_gm_velocity   = last_reward['GM_velocity']
+
+                        last_overshoot = last_reward["overshoot"]
+                        last_settling_time = last_reward["settling_time"]
+                        last_overshoot_load = last_reward["overshoot_load"]
+                        last_settling_time_load = last_reward["settling_time_load"]
+                        last_Ess_step = last_reward["Ess_step"]
+                        last_gm_velocity = last_reward["GM_velocity"]
+                        last_settling_001p = last_reward["settling_time_001p"]
+                        last_settling_01p = last_reward["settling_time_01p"]
+                        last_settling_1p = last_reward["settling_time_1p"]
+                        last_settling_3p = last_reward["settling_time_3p"]
+                        last_damping_ratio = last_reward["damping_ratio"]
+                        last_Ess_trap = last_reward["Ess_trap"]
 
                     # 提取 sys號碼
                     sys_num = int(re.findall(r'\d+', sys_folder)[0])
@@ -86,7 +107,26 @@ def summary_table(test=False):
                         'ini_overshoot' : ini_overshoot,
                         'last_overshoot' : last_overshoot,
                         'ini_GM_velocity' : ini_gm_velocity,
-                        'last_GM_velocity' : last_gm_velocity
+                        'last_GM_velocity' : last_gm_velocity,
+                        'ini_overshoot_load' : ini_overshoot_load,
+                        'last_overshoot_load' : last_overshoot_load,
+                        'ini_settling_time_load' : ini_settling_time_load,
+                        'last_settling_time_load' : last_settling_time_load,
+                        'ini_Ess_step' : ini_Ess_step,
+                        'last_Ess_step' : last_Ess_step,
+                        'ini_settling_001p' : ini_settling_001p,
+                        'last_settling_001p' : last_settling_001p,
+                        'ini_settling_01p' : ini_settling_01p,
+                        'last_settling_01p' : last_settling_01p,
+                        'ini_settling_1p' : ini_settling_1p,
+                        'last_settling_1p' : last_settling_1p,
+                        'ini_settling_3p' : ini_settling_3p,
+                        'last_settling_3p' : last_settling_3p,
+                        'ini_damping_ratio' : ini_damping_ratio,
+                        'last_damping_ratio' : last_damping_ratio,
+                        'ini_Ess_trap' : ini_Ess_trap,
+                        'last_Ess_trap' : last_Ess_trap,
+
                     }
                     records.append(record)
 
@@ -152,6 +192,14 @@ def summary_table(test=False):
     col_last_overshoot = header['last_overshoot']
     col_last_gm_velocity = header['last_GM_velocity']
     col_sys_num = header['sys_num']
+    col_ini_settling_load = header['ini_settling_time_load']
+    col_last_settling_load = header['last_settling_time_load']
+    col_ini_overshoot_load = header['ini_overshoot_load']
+    col_last_overshoot_load = header['last_overshoot_load']
+    col_ini_Ess_step = header['ini_Ess_step']
+    col_last_Ess_step = header['last_Ess_step']
+    col_ini_Ess_trap = header['ini_Ess_trap']
+    col_last_Ess_trap = header['last_Ess_trap']
 
     # 讀取sys_num做分隔線參考
     previous_sys_num = None
@@ -184,6 +232,14 @@ def summary_table(test=False):
         last_settling = row[col_last_settling-1].value
         last_overshoot = row[col_last_overshoot-1].value
         last_gm_velocity = row[col_last_gm_velocity-1].value
+        ini_settling_load = row[col_ini_settling_load-1].value
+        last_settling_load = row[col_last_settling_load-1].value
+        ini_overshoot_load = row[col_ini_overshoot_load-1].value
+        last_overshoot_load = row[col_last_overshoot_load-1].value
+        ini_Ess_step = row[col_ini_Ess_step-1].value
+        last_Ess_step = row[col_last_Ess_step-1].value
+        ini_Ess_trap = row[col_ini_Ess_trap-1].value
+        last_Ess_trap = row[col_last_Ess_trap-1].value
 
         # 每格置中
         for cell in row:
@@ -217,6 +273,14 @@ def summary_table(test=False):
 
         for cell in row:
             cell.fill = fill
+
+        if ini_settling_load is not None and last_settling_load is not None:
+            if ini_settling_load > last_settling_load:
+                row[col_last_settling_load-1].font = green_font
+
+        if last_overshoot_load is not None:
+            if last_overshoot_load > 2.0:
+                row[col_last_overshoot_load-1].font = red_font
 
         previous_sys_num = sys_num
         previous_row = row
@@ -493,7 +557,7 @@ def create_pptx(test=False):
     print(f"✅ 完成！PPT已儲存到 {output_ppt_path}")
 
 if __name__ == "__main__":
-    inference_name = 'LSTM_20250608_151201'
+    inference_name = 'LSTM_20250626_115604'
     test=False
     # test=True
     summary_table(test=test)

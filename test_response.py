@@ -195,7 +195,7 @@ def simulation_trap(Kpp=100.0, Kvp=200.0, Kvi=0.0):
     matlab_engine.workspace["goal_position"]  = goal_position
 
     # run matlab
-    matlab_engine.run("matlab_module/simulation_no_feedforward_trap.m", nargout=0)
+    matlab_engine.run("matlab_module/simulation_no_feedforward_trap_sat_enable.m", nargout=0)
 
     tt = np.array(matlab_engine.eval("tout", nargout=1)).T.tolist()[0]
     pos = np.array(matlab_engine.eval("pos", nargout=1)).T.tolist()[0]
@@ -278,7 +278,7 @@ def simulation_step(Kpp=100.0, Kvp=200.0, Kvi=0.0):
 
     # run matlab
     # matlab_engine.run("matlab_module/simulation_no_feedforward_step.m", nargout=0)
-    matlab_engine.run("matlab_module/simulation_no_feedforward_step_sat.m", nargout=0)
+    matlab_engine.run("matlab_module/simulation_no_feedforward_trap_sat_enable.m", nargout=0)
 
     tt = np.array(matlab_engine.eval("tout", nargout=1)).T.tolist()[0]
     pos = np.array(matlab_engine.eval("pos", nargout=1)).T.tolist()[0]
